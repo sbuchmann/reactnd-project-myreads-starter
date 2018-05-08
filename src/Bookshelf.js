@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Book from "./Book";
+import Bookgrid from "./Bookgrid";
 
 class Bookshelf extends Component {
     static propTypes = {
@@ -20,13 +20,7 @@ class Bookshelf extends Component {
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{shelfName}</h2>
                 <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {books.map(book => {
-                            return (<li key={book.id}>
-                                <Book book={book} />
-                            </li>);
-                        })}
-                    </ol>
+                    <Bookgrid books={books}/>
                 </div>
             </div>
         );
