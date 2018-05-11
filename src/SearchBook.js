@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import * as BooksAPI from './BooksAPI';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
@@ -7,24 +6,14 @@ import Bookgrid from "./Bookgrid";
 
 class SearchBook extends Component {
     static propTypes = {
-
+        books: PropTypes.array.isRequired,
+        onSearchBooks: PropTypes.func.isRequired,
+        onChangeShelf: PropTypes.func.isRequired
     };
 
-    state = {
-        books: []
-    };
-
-    updateQuery = (query) => {
-        const books = BooksAPI.search(query).then((books) => {
-            let booksObj = books;
-            if (!books || books.error) {
-                booksObj = [];
-            }
-            this.setState(() => ({
-                books: booksObj
-            }))
-        });
-    };
+    componentDidMount() {
+        this.props.onSearchBooks('');
+    }
 
     render() {
         return (
@@ -47,13 +36,15 @@ class SearchBook extends Component {
                         <input
                             type="text"
                             placeholder="Search by title or author"
-                            onChange={(event) => this.updateQuery(event.target.value)}
+                            onChange={(event) => this.props.onSearchBooks(event.target.value)}
                         />
 
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <Bookgrid books={this.state.books}/>
+                    <Bookgrid
+                        books={this.props.books}
+                        onChangeShelf={this.props.onChangeShelf}/>
                 </div>
             </div>
         );
